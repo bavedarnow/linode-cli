@@ -23,7 +23,7 @@ try:
     VERSION = pkg_resources.require("linode-cli")[0].version
 except:
     VERSION = 'building'
-BASE_URL = 'https://api.linode.com/v4'
+BASE_URL = 'https://api.dev.linode.com/v4'
 
 
 cli = CLI(VERSION, BASE_URL, skip_config='--skip-config' in argv)
