@@ -17,6 +17,9 @@ from .response import ModelAttr, ResponseModel
 from .configuration import CLIConfig
 from .output import OutputHandler, OutputMode
 
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 METHODS = ('get','post','put','delete')
 
