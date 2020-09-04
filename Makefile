@@ -3,7 +3,9 @@
 #
 
 PYTHON ?= 3
-SPEC ?= https://developers.linode.com/api/docs/v4/openapi.yaml
+SPEC ?= ../linode-api-docs-dbaas/openapi.yaml
+DIST_DIR ?= ../linode-cli-dbaas/dist
+GITHUB_SPEC ?= ../linode-cli-dbaas/openapi.yaml
 
 ifeq ($(PYTHON), 3)
 	PYCMD=python3
@@ -22,7 +24,8 @@ build: clean
 	python3 -m linodecli bake ${SPEC} --skip-config
 	cp data-2 linodecli/
 	cp data-3 linodecli/
-	$(PYCMD) setup.py bdist_wheel --universal
+	$(PYCMD) setup.py bdist_wheel --universal -d ${DIST_DIR}
+	cp ${SPEC} ${GITHUB_SPEC}
 
 .PHONY: requirements
 requirements:
