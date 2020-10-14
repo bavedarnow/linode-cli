@@ -402,7 +402,7 @@ on your account to work correctly.""".format(TOKEN_GENERATION_URL))
         if token is not None:
             headers["Authorization"] = "Bearer {}".format(token)
 
-        result = get(self.base_url+url, headers=headers, verify=False)
+        result = get(self.base_url+url, headers=headers, verify=True)
 
         if not 199 < result.status_code < 300:
             print("Could not contact {} - Error: {}".format(self.base_url+url,

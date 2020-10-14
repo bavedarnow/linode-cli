@@ -439,7 +439,7 @@ complete -F _linode_cli linode-cli""")
         if self.debug_request:
             self.print_request_debug_info(method, url, headers, body)
 
-        result =  method(url, headers=headers, data=body, verify=False)
+        result =  method(url, headers=headers, data=body, verify=True)
 
         if self.debug_request:
             self.print_response_debug_info(result)

@@ -7,24 +7,18 @@ SPEC ?= ../linode-api-docs-dbaas/openapi.yaml
 DIST_DIR ?= ../linode-cli-dbaas/dist
 GITHUB_SPEC ?= ../linode-cli-dbaas/openapi.yaml
 
-ifeq ($(PYTHON), 3)
-	PYCMD=python3
-	PIPCMD=pip3
-else
-	PYCMD=python
-	PIPCMD=pip
-endif
+PYCMD=python3
+PIPCMD=pip3
+
 
 install: check-prerequisites requirements build
-	ls dist/ | xargs -I{} $(PIPCMD) install --force dist/{}
+	ls ${DIST_DIR}/ | xargs -I{} $(PIPCMD) install --force ${DIST_DIR}/{}
 
 .PHONY: build
 build: clean
-	python -m linodecli bake ${SPEC} --skip-config
 	python3 -m linodecli bake ${SPEC} --skip-config
-	cp data-2 linodecli/
 	cp data-3 linodecli/
-	$(PYCMD) setup.py bdist_wheel --universal -d ${DIST_DIR}
+	$(PYCMD) setup.py bdist_wheel -d ${DIST_DIR}
 	cp ${SPEC} ${GITHUB_SPEC}
 
 .PHONY: requirements
@@ -34,13 +28,11 @@ requirements:
 
 .PHONY: check-prerequisites
 check-prerequisites:
-	@ pip -v >/dev/null
-	@ pip3 -v >/dev/null
-	@ python -V >/dev/null
-	@ python3 -V >/dev/null
+	@ pip3 --version >/dev/null
+	@ python3 --version >/dev/null
 
 .PHONY: clean
 clean:
 	rm -f linodecli/data-*
 	rm -f linode-cli.sh
-	rm -f dist/*
+	rm -f ${DIST_DIR}/*
