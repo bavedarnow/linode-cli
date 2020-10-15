@@ -86,11 +86,14 @@ class CLI:
 
         return tmp
 
-    def _parse_args(self, node, prefix=[], args={}):
+    def _parse_args(self, node, prefix=[], args=None):
         """
         Given a node in a requestBody, parses out the properties and returns the
         CLIArg info
         """
+        if args is None:
+            args = {}
+
         for arg, info in node.items():
             if 'allOf' in info:
                 info = self._resolve_allOf(info['allOf'])
@@ -108,6 +111,11 @@ class CLI:
                 "name": arg,
                 "format": info.get('x-linode-cli-format', info.get('format', None)),
             }
+
+            # if this is coming in as json, stop here
+            if args[path]["format"] == "json":
+                args[path]["type"] = "object"
+                continue
 
             # handle input lists
             if args[path]['type'] == 'array' and 'items' in info:
